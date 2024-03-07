@@ -3,3 +3,7 @@
 ################################################################################
 
 /.vs
+/CS2-Admin/bin/Release/net8.0
+/CS2-Admin/obj
+/release
+/CS2-Admin/Properties/PublishProfiles/FolderProfile.pubxml.user
