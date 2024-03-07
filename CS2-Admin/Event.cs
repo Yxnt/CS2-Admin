@@ -62,6 +62,7 @@ public partial class CS2_Admin
     [GameEventHandler]
     public HookResult OnRoundStart(EventRoundStart @event, GameEventInfo info)
     {
+        // TODO: 这里还有异常
         roundInfo.WarmUpRound = false;
         roundInfo.RoundNumber++;
         Logger.LogInformation($"Round {roundInfo.RoundNumber} Start");
