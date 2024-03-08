@@ -1,4 +1,5 @@
-﻿using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Entities;
@@ -12,6 +13,8 @@ namespace CS2_Admin;
 
 public partial class CS2_Admin : BasePlugin
 {
+    public static CS2_Admin? Instance { get; private set; }
+
     public override string ModuleName => "CS2 Admin";
 
     public override string ModuleVersion => "0.0.1";
@@ -20,9 +23,13 @@ public partial class CS2_Admin : BasePlugin
 
     public override string ModuleDescription => "CS2 Admin Plugin";
 
+    private string _warmUpTimeSeconds = "600";
+    private string _warmUpEndUserCount = "10";
+
     public override void Load(bool hotReload)
     {
         Logger.LogInformation("Plugin loaded successfully!");
+        registryListener();
     }
 
     private GameInfo gameInfo = new GameInfo();

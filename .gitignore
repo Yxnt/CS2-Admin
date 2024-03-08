@@ -7,3 +7,6 @@
 /CS2-Admin/obj
 /release
 /CS2-Admin/Properties/PublishProfiles/FolderProfile.pubxml.user
+publish/
+.idea
+.DS_Store
