@@ -13,7 +13,6 @@ namespace CS2_Admin;
 
 public partial class CS2_Admin : BasePlugin
 {
-    public static CS2_Admin? Instance { get; private set; }
 
     public override string ModuleName => "CS2 Admin";
 

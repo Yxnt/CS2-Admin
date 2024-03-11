@@ -28,19 +28,11 @@ public partial class CS2_Admin
         return HookResult.Continue;
     }
 
-    //游戏开始
-    [GameEventHandler]
-    public HookResult OnGameStart(EventGameStart @event, GameEventInfo info)
-    {
-        initGameSettings();
-        return HookResult.Continue;
-    }
 
     // 回合结束
     [GameEventHandler]
     public HookResult OnRoundEnd(EventRoundEnd @event, GameEventInfo info)
     {
-
         // 热身回合结束
         if (roundInfo.RoundNumber == 0 && roundInfo.WarmUpRound == true)
         {
@@ -182,7 +174,7 @@ public partial class CS2_Admin
         Logger.LogInformation($"Round WarmUp");
         roundInfo.RoundNumber = 0;
         roundInfo.WarmUpRound = true;
-        friendlyFireMenu();
+        initGameSettings();
         return HookResult.Continue;
     }
 
@@ -214,27 +206,37 @@ public partial class CS2_Admin
     {
         if (@event.Isbot) return HookResult.Continue;
 
-        gameInfo.PlayerTeamInfo.Add(new UserInfo()
+        if (!gameInfo.PlayerTeamInfo.ContainsKey(@event.Userid))
         {
-            Name = @event.Userid,
-            Hp = 100,
-            Team = @event.Team
-        });
+            gameInfo.PlayerTeamInfo[@event.Userid] = new UserInfo()
+            {
+                Name = @event.Userid,
+                Hp = 100,
+                Team = @event.Team
+            };
+        }
 
         // if (roundInfo.RoundNumber == 0)
         // {
-            // 玩家10人结束热身
-            // int tUserCount = gameInfo.PlayerTeamInfo.Count(user => user.Team == (int)CsTeam.Terrorist);
-            // int ctUserCount = gameInfo.PlayerTeamInfo.Count(user => user.Team == (int)CsTeam.CounterTerrorist);
+        // 玩家10人结束热身
+        // int tUserCount = gameInfo.PlayerTeamInfo.Count(user => user.Team == (int)CsTeam.Terrorist);
+        // int ctUserCount = gameInfo.PlayerTeamInfo.Count(user => user.Team == (int)CsTeam.CounterTerrorist);
 
-            // if (tUserCount == 5 && ctUserCount == 5)
-            // {
-            //     friendlyFireMenu();
-            //     endWarmUpRound();
-            // }
+        // if (tUserCount == 5 && ctUserCount == 5)
+        // {
+        //     friendlyFireMenu();
+        //     endWarmUpRound();
+        // }
         // }
 
 
+        return HookResult.Continue;
+    }
+
+    [GameEventHandler]
+    public HookResult OnGameEnd(EventGameEnd @event, GameEventInfo info)
+    {
+        gameInfo.PlayerTeamInfo.Clear();
         return HookResult.Continue;
     }
 }

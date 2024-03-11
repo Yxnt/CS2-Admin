@@ -14,8 +14,8 @@ namespace CS2_Admin.Models
         public long MaxRound { get; set; }
         public string MaxPlayer { get; set; }
 
-        private List<UserInfo> _playerTeamInfo = new List<UserInfo>() ;
-        public List<UserInfo> PlayerTeamInfo
+        private Dictionary<CCSPlayerController,UserInfo> _playerTeamInfo = new Dictionary<CCSPlayerController, UserInfo>() ;
+        public Dictionary<CCSPlayerController,UserInfo> PlayerTeamInfo
         {
             get => _playerTeamInfo;
             set

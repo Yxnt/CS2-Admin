@@ -29,12 +29,6 @@ namespace CS2_Admin
             }
         }
 
-        void endWarmUpRound(){
-            Server.ExecuteCommand("endround");
-            Server.ExecuteCommand("mp_warmuptime 10");
-            Server.ExecuteCommand("teammenu 0");
-        }
-
         // Change Game Map
         [ConsoleCommand("css_map", "切换比赛地图")]
         [CommandHelper(minArgs: 1, usage: "[map_code]", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
@@ -60,18 +54,9 @@ namespace CS2_Admin
         [RequiresPermissions("@css/generic")]
         public void GiveWeaponToAllUser(CCSPlayerController? player, CommandInfo command){
             string weaponId = command.GetArg(1);
-            CsItem weapon;
-            if (Enum.TryParse(typeof(CsItem), weaponId, true, out object result))
-            {
-                weapon = (CsItem)result;
-            } else {
-                // 默认提供电击枪
-                weapon = CsItem.Taser;
-            }
-
-            Server.PrintToChatAll($" {ChatColors.Red}[通知] {ChatColors.Default}: 已经给所有玩家提供了 {ChatColors.Green}{weapon}");
-            foreach(UserInfo user in gameInfo.PlayerTeamInfo){
-                user.Name.GiveNamedItem(weapon);
+            Server.PrintToChatAll($" {ChatColors.Red}[通知] {ChatColors.Default}: 已经给所有玩家提供了 {ChatColors.Green}{weaponId}");
+            foreach(CCSPlayerController user in gameInfo.PlayerTeamInfo.Keys){
+                user.GiveNamedItem(weaponId);
             }
         }
     }
